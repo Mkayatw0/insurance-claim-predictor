@@ -2,8 +2,47 @@ import streamlit as st
 import requests
 from datetime import datetime
 import pandas as pd
+import os
+import streamlit as st
+import base64
+
+# Background image and theme toggle
+def set_background(image_file):
+    with open(image_file, "rb") as f:
+        encoded = base64.b64encode(f.read()).decode()
+    css = f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/jpg;base64,{encoded}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }}
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
+
+def set_theme(dark: bool):
+    theme = "dark" if dark else "light"
+    st.markdown(
+        f"""
+        <style>
+        body {{
+            color: {'white' if dark else 'black'};
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 st.set_page_config(page_title="🩺 Insurance Claim Predictor", layout="centered")
+
+# Theme and background
+dark_mode = st.sidebar.checkbox("🌙 Dark Mode", value=False)
+set_theme(dark_mode)
+set_background("insurance_bg.jpg")  # Add your image to the project root
+
 
 st.title("🩺 Insurance Claim Prediction")
 st.markdown("Predict the claim amount based on patient and claim details.")
@@ -57,8 +96,11 @@ if submitted:
         "ClaimSubmissionMethod": submission_method
     }
 
+     #Get the API URL from environment variable with a fallback to localhost
+    API_URL = os.getenv("API_URL", "http://localhost:8000")
+
     try:
-        response = requests.post("http://localhost:8000/predict/", json=input_data)
+        response = requests.post(f"{API_URL}/predict/", json=input_data)
         result = response.json()
 
         if response.status_code == 200 and result["status"] == "success":
