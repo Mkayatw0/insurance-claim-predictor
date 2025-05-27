@@ -1,7 +1,14 @@
-# File: Dockerfile
 FROM python:3.10-slim
+
 WORKDIR /app
-COPY . /app
-RUN pip install --no-cache-dir fastapi[all] pandas scikit-learn joblib prophet
-EXPOSE 8000
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY claims_app.py .
+COPY prophet_model.json .
+COPY best_residual_model_LinearRegression.pkl .
+COPY residual_model_scaler.pkl .
+COPY model_metadata.pkl .
+
 CMD ["uvicorn", "claims_app:app", "--host", "0.0.0.0", "--port", "8000"]

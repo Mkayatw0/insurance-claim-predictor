@@ -9,8 +9,16 @@ import pandas as pd
 from prophet.serialize import model_from_json
 import json
 from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load models
 with open('prophet_model.json', 'r') as fin:

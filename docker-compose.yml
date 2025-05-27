@@ -1,30 +1,27 @@
-
 services:
   fastapi:
     build:
       context: .
       dockerfile: dockerfile.fastapi
-    container_name: fastapi-app
     ports:
       - "8000:8000"
-    volumes:
-      - ./claims_app.py:/app/claims_app.py  # Mount single file
     environment:
       - PYTHONUNBUFFERED=1
+    volumes:
+      - ./models:/app/models
     restart: unless-stopped
 
   streamlit:
     build:
       context: .
       dockerfile: dockerfile.streamlit
-    container_name: streamlit-app
     ports:
       - "8501:8501"
     depends_on:
       - fastapi
-    volumes:
-      - ./streamlit_claims_app.py:/app/streamlit_claims_app.py  # Mount single file
     environment:
       - PYTHONUNBUFFERED=1
-      - API_URL=http://fastapi:8000  # Internal Docker network
+      - API_URL=http://fastapi:8000
+    volumes:
+      - .:/app
     restart: unless-stopped
