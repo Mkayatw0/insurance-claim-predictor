@@ -14,20 +14,20 @@ if 'dark_mode' not in st.session_state:
 def apply_dark_mode(dark_mode):
     if dark_mode:
         background_color = "#1E1E1E"
-        text_color = "#F0F0F0"
+        text_color = "#FAFAFA"
         input_bg = "#2D2D2D"
-        input_text = "#FFFFFF"
-        primary_color = "#D4AF37"  # Gold color
-        metric_text = "#D4AF37"
+        input_text = "#FAFAFA"
+        primary_color = "#E7D283"  # Gold color
+        metric_text = "#E7D283"
         border_color = "#444444"
     else:
-        background_color = "#F8F9FA"
-        text_color = "#212529"
-        input_bg = "#FFFFFF"
-        input_text = "#212529"
-        primary_color = "#D4AF37"  # Gold color
-        metric_text = "#D4AF37"
-        border_color = "#DEE2E6"
+        background_color = "#FAFAFA"
+        text_color = "#FAFAFA"
+        input_bg = "#FAFAFA"
+        input_text = "#444444"
+        primary_color = "#E7D283"  # Gold color
+        metric_text = "#E7D283"
+        border_color = "#444444"
     
     custom_css = f"""
     <style>
@@ -252,25 +252,25 @@ if submitted:
                 if response.status_code == 200 and result["status"] == "success":
                     preds = result["predictions"]
                     
-                    st.success("✅ Prediction successful!")
+                    st.success("🎉Prediction successful!🎉")
                     st.balloons()
                     
                     # Display predictions in gold color
                     col1, col2, col3 = st.columns(3)
                     with col1:
                         with st.container():
-                            st.markdown("**Time-Series Prediction**")
-                            st.markdown(f"<h2 style='color: #D4AF37;'>{preds['prophet']:,.2f}</h2>", 
+                            st.markdown("**Prophet Prediction**")
+                            st.markdown(f"<h2 style='color: #FF4B4B;'>{preds['prophet']:,.2f}</h2>", 
                                         unsafe_allow_html=True)
                     with col2:
                         with st.container():
                             st.markdown("**Residual Adjustment**")
-                            st.markdown(f"<h2 style='color: #D4AF37;'>{preds['residual']:,.2f}</h2>", 
+                            st.markdown(f"<h2 style='color: #FF4B4B;'>{preds['residual']:,.2f}</h2>", 
                                         unsafe_allow_html=True)
                     with col3:
                         with st.container():
                             st.markdown("**Final Prediction**")
-                            st.markdown(f"<h2 style='color: #D4AF37;'>{preds['final']:,.2f}</h2>", 
+                            st.markdown(f"<h2 style='color: #FF4B4B;'>{preds['final']:,.2f}</h2>", 
                                         unsafe_allow_html=True)
 
                     # Create pie chart of the ratio
@@ -283,7 +283,7 @@ if submitted:
                         pie_data,
                         values="Value",
                         names="Component",
-                        color_discrete_sequence=["#1a73e8", "#D4AF37"],  # Deep blue and gold
+                        color_discrete_sequence=["#A86523","#1a73e8"],  # Deep blue and gold
                         hole=0.3,
                         title="Prediction Components Ratio"
                     )
@@ -292,7 +292,7 @@ if submitted:
                     fig.update_layout(
                         paper_bgcolor='rgba(0,0,0,0)',
                         plot_bgcolor='rgba(0,0,0,0)',
-                        font_color=st.session_state.dark_mode and "#F0F0F0" or "#212529",
+                        font_color=st.session_state.dark_mode and "#60B5FF" or "#60B5FF",
                         legend=dict(
                             orientation="h",
                             yanchor="bottom",
